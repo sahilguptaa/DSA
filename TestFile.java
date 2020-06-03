@@ -5,18 +5,81 @@ import java.util.HashSet;
 public class TestFile {
 	
 	public static void main(String args[]) {
-		int arr[] = {10, 7, 8, 9, 1, 5}; 
+		int arr[] = {5,7,2,8,9,4,1}; 
         int n = arr.length; 
-        
-        quickSortWithLastElementAsPivot(arr, 0, n-1);
-      
+        int k =7;
+        int ele = findKthLargestElementUsingQuickSelect(arr, 0, n-1, k);
+        System.out.println(ele);
         for (int i = 0; i < n; i++) 
             System.out.print(arr[i] + " "); 
 	}
 	
-	static void quickSortWithLastElementAsPivot(int[] arr, int i, int j) {
-		// https://www.geeksforgeeks.org/quick-sort/
+	static int findKthLargestElementUsingQuickSelect(int[] a, int i, int j, int k) {
+		// https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/?ref=rp
+		int element = a[i];
 		
+		// For kth largest element
+		// int indexOfElementToFind = a.length - k;
+		// For kth smallest element
+		 int indexOfElementToFind = k - 1;
+		if(i<j) {
+			int pivot = doRandomPartition(a, i, j);
+			if(pivot == indexOfElementToFind) {
+				element =  a[pivot];
+			} else if(pivot > indexOfElementToFind) {
+				element =  findKthLargestElementUsingQuickSelect(a, i, pivot-1, k);
+			} else {
+				element = findKthLargestElementUsingQuickSelect(a, pivot+1,j ,k);
+			}
+		}
+		return element;
+		
+	}
+
+	static int doRandomPartition(int[] a, int i, int j) {
+		// search random index and move it to the end
+		
+//		int n = j - i + 1; // 
+//		int swapIndex = (int)(Math.random())*(n-1);
+//		swap(a, i + swapIndex ,j);
+		
+		int pivot = partition(a,i,j);
+		return pivot;
+		
+	}
+
+	static void swap(int[] a, int i, int j) {
+		// swap value of i and j
+		int temp = a[i];
+		a[i] = a[j];
+		a[j] = temp;
+		
+	}
+
+	static void quickSortWithLastElementAsPivot(int[] arr, int low, int high) {
+		// https://www.geeksforgeeks.org/quick-sort/
+		if(low<high) {
+			int pivot = partition(arr, low, high);
+			quickSortWithLastElementAsPivot(arr, low, pivot-1);
+			quickSortWithLastElementAsPivot(arr, pivot+1, high);
+		}
+		
+	}
+	static int partition(int[] a, int low, int high) {
+		int pivot = a[high];
+		int i=low;
+		for(int j=low;j<high;j++) {
+			if(a[j]<pivot) {
+				int temp = a[i];
+				a[i]=a[j];
+				a[j]=temp;
+				i++;
+			}
+		}
+		int temp = a[i];
+		a[i] = a[high];
+		a[high] =temp;
+		return i;
 	}
 
 	static void quickSortWithFirstElementAsPivot(int[] a, int l, int r) {
