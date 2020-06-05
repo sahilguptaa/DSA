@@ -5,14 +5,45 @@ import java.util.HashSet;
 public class TestFile {
 	
 	public static void main(String args[]) {
-		int arr[] = {5,7,2,8,9,4,1}; 
-        int n = arr.length; 
-        int k =7;
-        int ele = findKthLargestElementUsingQuickSelect(arr, 0, n-1, k);
-        System.out.println(ele);
-        for (int i = 0; i < n; i++) 
-            System.out.print(arr[i] + " "); 
+		 int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 }; 
+	        int n = arr.length; 
+	        System.out.print(trappingRainWater(arr, n)); 
 	}
+	
+	public static int trappingRainWater(int a[], int n) 
+    { 
+		// https://www.geeksforgeeks.org/trapping-rain-water/
+		
+		// O(n)
+		
+		int water =0;
+		int tempWater = 0;
+		int prevMax = a[0];
+		int prevMaxIndex = 0;
+		for(int i=1;i<n;i++) {
+			if(a[i] >= prevMax) {
+				prevMax = a[i];
+				prevMaxIndex = i;
+				tempWater = 0;
+			} else {
+				water += prevMax - a[i];
+				tempWater += prevMax - a[i];
+			}
+		}
+		
+		if(prevMaxIndex < n-1) {
+			water -= tempWater;
+			prevMax = a[n-1];
+			for(int i=n-1;i>=prevMaxIndex;i--) {
+				if(a[i] >= prevMax) {
+					prevMax = a[i];
+				} else {
+					water += prevMax - a[i];
+				}
+			}
+		}
+             return water; 
+    } 
 	
 	static int findKthLargestElementUsingQuickSelect(int[] a, int i, int j, int k) {
 		// https://www.geeksforgeeks.org/kth-smallestlargest-element-unsorted-array-set-2-expected-linear-time/?ref=rp
