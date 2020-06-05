@@ -5,9 +5,31 @@ import java.util.HashSet;
 public class TestFile {
 	
 	public static void main(String args[]) {
-		 int arr[] = { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 }; 
+		 int arr[] = {3, 4, 1, 9, 56, 7, 9, 12}; 
 	        int n = arr.length; 
-	        System.out.print(trappingRainWater(arr, n)); 
+	        chocolateDistributionProblem(arr,5);
+	        
+	        for(int i=0;i<n;i++) {
+	        	System.out.print(arr[i] + " ");
+	        }
+	}
+	
+	static int chocolateDistributionProblem(int a[], int k) {
+		
+		// https://www.geeksforgeeks.org/chocolate-distribution-problem/
+		// O(n logn)
+		int minDiff = 1000;
+        int n = a.length; 
+        quickSortWithLastElementAsPivot(a, 0, n-1);
+        int i = 0;
+        int j = k-1;
+        while(i<= n-k) {
+        	minDiff = Math.min(minDiff, a[j]-a[i]);
+        	i++;
+        	j++;
+        }
+        System.out.println(minDiff);
+		return minDiff;
 	}
 	
 	public static int trappingRainWater(int a[], int n) 
