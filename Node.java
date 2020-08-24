@@ -10,6 +10,7 @@ public class Node {
         data = item; 
         left = right = null; 
     }
+	// hello
 	
 	public Node addNode(Node current, int value) {
 		if(current == null) {
