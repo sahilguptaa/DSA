@@ -26,4 +26,24 @@ public class Node {
 		return current;
 	}
 	
+	public Node rotate(Node head, int k) {
+        // add code here
+        Node currNode = head;
+        Node newHead;
+        for(int i=1;i<k;i++){
+            currNode = currNode.right;
+        }
+        newHead = currNode.right;
+        if(newHead == null){
+            return head;
+        }
+        currNode.right = null;
+        currNode = newHead;
+        while(currNode.right != null){
+            currNode = currNode.right;
+        }
+        currNode.right = head;
+        return newHead;
+    }
+	
 }
