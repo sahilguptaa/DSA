@@ -46,4 +46,27 @@ public class Node {
         return newHead;
     }
 	
+    public static Node reverseInGroupOfK(Node node, int k)
+    {
+        //Your code here
+        Node prev = null;
+        Node next = null;
+        Node curr = node;
+        
+        int count = 0;
+        while(count<k && curr != null){
+            count++;
+            next = curr.right;
+            curr.right= prev;
+            prev = curr;
+            curr = next;
+        }
+        
+        if(next != null){
+            node.right = reverseInGroupOfK(next, k);
+        }
+        return prev;
+        
+    }
+	
 }
