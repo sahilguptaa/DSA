@@ -50,23 +50,57 @@ public class Node {
     {
         //Your code here
         Node prev = null;
-        Node next = null;
+        Node right = null;
         Node curr = node;
         
         int count = 0;
         while(count<k && curr != null){
             count++;
-            next = curr.right;
+            right = curr.right;
             curr.right= prev;
             prev = curr;
-            curr = next;
+            curr = right;
         }
         
-        if(next != null){
-            node.right = reverseInGroupOfK(next, k);
+        if(right != null){
+            node.right = reverseInGroupOfK(right, k);
         }
         return prev;
         
+    }
+    
+    Node removeAllGreaterValuesNodeOnRight(Node head)
+    {
+        // your code here
+        head = reverse(head);
+        
+        int max = head.data;
+        Node curr = head;
+        while(curr!=null && curr.right != null){
+            if(max > curr.right.data){
+                curr.right = curr.right.right;
+            } else {
+                max = curr.right.data;
+            
+            curr = curr.right;
+        }}
+        
+        head = reverse(head);
+        return head;
+        
+    }
+    
+    Node reverse(Node head){
+        Node prev = null;
+        Node right = null;
+        Node curr = head;
+        while(curr != null){
+            right = curr.right;
+            curr.right = prev;
+            prev = curr;
+            curr = right;
+        }
+        return prev;
     }
 	
 }
