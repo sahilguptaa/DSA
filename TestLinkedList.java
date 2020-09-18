@@ -8,19 +8,63 @@ public class TestLinkedList {
 	public static void main(String args[]) {
 		TestLinkedList list = new TestLinkedList(); 
 	       // creating first linked list 
-        list.head1 = new Node(3); 
-        list.head1.next = new Node(6); 
-        list.head1.next.next = new Node(9); 
-        list.head1.next.next.next = new Node(15); 
-        list.head1.next.next.next.next = new Node(30); 
+        list.head1 = new Node(5); 
+        list.head1.next = new Node(10); 
+        list.head1.next.next = new Node(15); 
+        list.head1.next.next.next = new Node(40); 
+//        list.head1.next.next.next.next = new Node(30); 
   
         // creating second linked list 
-        list.head = new Node(10); 
-        list.head.next = list.head1.next.next.next; 
-        list.head.next.next = list.head1.next.next.next.next; 
+        list.head = new Node(2); 
+        list.head.next = new Node(3); 
+        list.head.next.next = new Node(20); 
         
-        System.out.println(list.getIntersectionNodeOfYShapedLL(list.head1, list.head).data);
+        System.out.println(list.sortedMerge(list.head1, list.head));
 	}
+	
+	Node sortedMerge(Node headA, Node headB) {
+		
+		Node newNode = headA;
+		Node ptrA = headA;
+		Node ptrB = headB;
+		Node ptrC; 
+		if(ptrA.data > ptrB.data) {
+			newNode = ptrB;
+			ptrB = ptrB.next;
+			ptrC = newNode;
+//			ptrC = ptrC.next;
+		} else {
+			newNode = ptrA;
+			ptrA = ptrA.next;
+			ptrC = newNode;
+//			ptrC = ptrC.next;
+		}
+		while(ptrA!=null && ptrB!=null) {
+			if(ptrA.data > ptrB.data) {
+				ptrC.next = ptrB;
+				ptrB = ptrB.next;
+				ptrC = ptrC.next;
+			} else {
+				ptrC.next = ptrA;
+				ptrA = ptrA.next;
+				ptrC = ptrC.next;
+			}
+		}
+		
+		while(ptrA != null) {
+			ptrC.next = ptrA;
+			ptrA = ptrA.next;
+			ptrC = ptrC.next;
+		}
+		
+		while(ptrB != null) {
+			ptrC.next = ptrB;
+			ptrB = ptrB.next;
+			ptrC = ptrC.next;
+		}
+		
+		return newNode;
+	   } 
 	
 	Node getIntersectionNodeOfYShapedLL (Node headA, Node headB) {
 		
