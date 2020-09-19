@@ -8,20 +8,128 @@ public class TestLinkedList {
 	public static void main(String args[]) {
 		TestLinkedList list = new TestLinkedList(); 
 	       // creating first linked list 
-        list.head1 = new Node(5); 
-        list.head1.next = new Node(10); 
-        list.head1.next.next = new Node(15); 
-        list.head1.next.next.next = new Node(40); 
-//        list.head1.next.next.next.next = new Node(30); 
+        list.head1 = new Node(9); 
+        list.head1.next = new Node(4); 
+        list.head1.next.next = new Node(5); 
+        list.head1.next.next.next = new Node(0); 
+        list.head1.next.next.next.next = new Node(9);
+        list.head1.next.next.next.next.next = new Node(6);
   
         // creating second linked list 
-        list.head = new Node(2); 
-        list.head.next = new Node(3); 
-        list.head.next.next = new Node(20); 
+        list.head = new Node(6); 
+//        list.head.next = new Node(6); 
+//        list.head.next.next = new Node(5); 
         
-        System.out.println(list.sortedMerge(list.head1, list.head));
+        System.out.println(list.sumOfTwoLL(list.head1, list.head));
 	}
 	
+	private Node sumOfTwoLL(Node head1, Node head2) {
+		
+		if(head1 == null) {
+			return head2;
+		} if(head2 == null) {
+			return head1;
+		}
+		
+		Node headA = reverse(head1);
+		Node headB = reverse(head2);
+		
+		Node sumNode = new Node(0);
+		Node newNode = sumNode;
+		
+		int carry = 0;
+		
+		while(headA != null || headB != null) {
+			int valueA = (headA != null) ? headA.data : 0;
+			int valueB = (headB != null) ? headB.data : 0;
+			
+			int currSum = (valueA + valueB + carry);
+			
+			int sum = currSum % 10;
+			carry = currSum / 10;
+			
+			Node lastNode = new Node(sum);
+			newNode.next = lastNode;
+			newNode = newNode.next;
+			
+			if(headA != null) {
+				headA = headA.next;
+			}
+			if(headB != null) {
+				headB = headB.next;
+			}
+			
+		}
+		
+		if(carry != 0) {
+			Node lastNode = new Node(carry);
+			newNode.next = lastNode;
+		}
+		
+		sumNode.next = reverse(sumNode.next);
+		return sumNode.next;
+	}
+	
+	private Node sum(Node head1, Node head2) {
+		// TODO Auto-generated method stub
+		if(head1 == null) {
+			return head2;
+		} if(head2 == null) {
+			return head1;
+		}
+		
+		Node headA = reverse(head1);
+		Node headB = reverse(head2);
+		
+		Node sumNode = new Node(0);
+		Node newNode = sumNode;
+		
+		int carry = 0;
+		while(headA != null && headB != null) {
+			int sum = (headA.data + headB.data + carry) % 10;
+			carry = (headA.data + headB.data + carry) / 10;
+			
+			headA = headA.next;
+			headB = headB.next;
+			
+			Node newDigit = new Node(sum);
+			newNode.next = newDigit;
+			newNode = newNode.next;
+		}
+		while(headA != null) {
+			int sum = (headA.data + carry) % 10;
+			carry = (headA.data + carry) / 10;
+			
+			headA = headA.next;
+//			headB = headB.next;
+			
+			Node newDigit = new Node(sum);
+			newNode.next = newDigit;
+			newNode = newNode.next;
+		}
+		while(headB != null) {
+			int sum = (headB.data + carry) % 10;
+			carry = (headB.data + carry) / 10;
+			
+			headB = headB.next;
+//			headB = headB.next;
+			
+			Node newDigit = new Node(sum);
+			newNode.next = newDigit;
+			newNode = newNode.next;
+		}
+		
+		if(carry != 0) {
+			newNode.next = new Node(carry);
+//			sumNode.data = carry;
+			
+		}
+
+		
+		
+		return reverse(sumNode.next);
+	}
+
 	Node sortedMerge(Node headA, Node headB) {
 		
 		Node newNode = headA;
