@@ -1,3 +1,4 @@
+import java.util.HashSet;
 
 public class TestLinkedList {
 	
@@ -9,18 +10,71 @@ public class TestLinkedList {
 		TestLinkedList list = new TestLinkedList(); 
 	       // creating first linked list 
         list.head1 = new Node(9); 
-        list.head1.next = new Node(4); 
-        list.head1.next.next = new Node(5); 
-        list.head1.next.next.next = new Node(0); 
-        list.head1.next.next.next.next = new Node(9);
-        list.head1.next.next.next.next.next = new Node(6);
+        list.head1.next = new Node(1); 
+//        list.head1.next.next = new Node(5); 
+//        list.head1.next.next.next = new Node(4); 
+//        list.head1.next.next.next.next = new Node(9);
+//        list.head1.next.next.next.next.next = new Node(6);
   
         // creating second linked list 
         list.head = new Node(6); 
 //        list.head.next = new Node(6); 
 //        list.head.next.next = new Node(5); 
-        
-        System.out.println(list.sumOfTwoLL(list.head1, list.head));
+        Node x = list.mergeSortLinkedList(list.head1);
+        System.out.println(x);
+	}
+	
+	
+	
+	private Node mergeSortLinkedList(Node head) {
+		
+		if(head == null || head.next == null) {
+			return head;
+		}
+		
+		Node currHead = head;
+		Node temp = null;
+		Node slow = head;
+		Node fast = head;
+		
+		while(fast != null && fast.next != null) {
+			temp = slow;
+			slow = slow.next;
+			fast = fast.next.next;
+		}
+		
+		temp.next = null;
+		
+		Node headA = mergeSortLinkedList(head);
+		Node headB = mergeSortLinkedList(slow);
+		
+		
+		return sortedMerge(headA, headB);
+	}
+
+
+
+	private Node removeDuplicatesFromUnsortedLL(Node head) {
+		Node ptr = head;
+		
+		// Use hash set in order not to break the order of existing elements.
+		HashSet<Integer> numbers = new HashSet<>();
+		Node prevPtr = null;
+		while(ptr != null) {
+			if(numbers.contains(ptr.data)) {
+//				ptr.data = ptr.next.data;
+//				ptr.next= ptr.next.next;
+				prevPtr.next = ptr.next;
+			} else {
+				numbers.add(ptr.data);
+				prevPtr = ptr;
+			}
+			ptr = ptr.next;
+			
+		}
+		
+		
+		return head;
 	}
 	
 	private Node sumOfTwoLL(Node head1, Node head2) {
