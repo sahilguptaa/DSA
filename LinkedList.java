@@ -8,6 +8,8 @@ public class LinkedList {
 		next = null;
 	}
 	
+	
+	// checking
 	static LinkedList removeDuplicatesFromLinkedList(LinkedList head) {
 		boolean firstDel = true;
 		int x = head.data;
