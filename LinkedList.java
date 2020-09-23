@@ -1,4 +1,4 @@
-// test commit
+// test commit 2
 public class LinkedList {
 	int data;
 	LinkedList next;
