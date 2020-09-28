@@ -3,13 +3,48 @@
 public class TestStack {
 
 	public static void main(String args[]) {
-		 int arr[] = new int[4];
-		 arr[0] = 7;
-		 arr[1] = 8;
-		 arr[2] = 1;
-		 arr[3] = 4;
-		 
-		 nextLargerElementOnLeft(arr);
+		int price[] = { 100 , 80, 60, 70, 60, 75, 85 }; 
+        int n = price.length; 
+        int S[] = new int[n]; 
+  
+        // Fill the span values in array S[] 
+        calculateStockSpan(price, n, S); 
+	}
+
+	private static void calculateStockSpan(int[] price, int n, int[] s) {
+		
+		// https://www.geeksforgeeks.org/the-stock-span-problem/
+		
+		// Auxiliary Space: O(n) in worst case when all elements are sorted in decreasing order.
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		
+		for (int i=0;i<n;i++) {
+			
+			if(stack.isEmpty()) {
+				s[i] = i+1;
+			} else if(price[stack.peek()] > price[i]) {
+				s[i] = i - stack.peek();
+			} else {
+				while(!stack.isEmpty() && price[stack.peek()] < price[i]) {
+					try {
+						stack.pop();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(stack.isEmpty()) {
+					s[i] = i+1;	
+				} else {
+					s[i] = i - stack.peek();
+				}
+			}
+			
+			stack.push(i);
+		}
+		System.out.println(s);
+		
 	}
 
 	private static void nextLargerElementOnLeft(int[] arr) {
