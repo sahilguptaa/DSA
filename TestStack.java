@@ -9,7 +9,43 @@ public class TestStack {
 		 arr[2] = 1;
 		 arr[3] = 4;
 		 
-		 nextLargerElement(arr);
+		 nextLargerElementOnLeft(arr);
+	}
+
+	private static void nextLargerElementOnLeft(int[] arr) {
+		Stack<Integer> stack = new Stack<Integer>();
+		int[] opArr = new int[arr.length];
+		int size = 0;
+		
+		while(size < arr.length) {
+			
+			if(stack.isEmpty()) {
+				opArr[size] = -1;
+			} else if (stack.peek() > arr[size]) {
+				opArr[size] = stack.peek();
+			} else {
+				while(!stack.isEmpty() && stack.peek() < arr[size]) {
+					try {
+						stack.pop();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(stack.isEmpty()) {
+					opArr[size] = -1;
+				} else {
+					opArr[size] = stack.peek();
+				}
+			}
+			
+			stack.push(arr[size]);
+			size++;
+		}
+		
+		for(int i=0;i<arr.length;i++) {
+			System.out.print(opArr[i]+" ");
+		}
 	}
 
 	private static boolean checkParanthesis(String expr) {
