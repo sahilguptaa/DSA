@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 
-public class Stack {
+public class Stack<T> {
 
 	int top = 0;
-	ArrayList<Character> stack;
+	ArrayList<T> stack;
 	public Stack() {
 		top = 0;
-		stack = new ArrayList<Character>();
+		stack = new ArrayList<T>();
 	}
 	
-	public int push(Character data) {
+	public int push(T data) {
 		top++;
 		stack.add(data);
 		return top;
 	}
 	
-	public Character pop() throws Exception {
+	public T pop() throws Exception {
 		if(isEmpty()) {
 			throw new Exception("empty stack");
 		}
-		Character temp = stack.get(top - 1);
+		T temp = stack.get(top - 1);
 		stack.remove(top-1);
 		top --;
 		return temp;
@@ -29,7 +29,7 @@ public class Stack {
 		return top == 0;
 	}
 	
-	public int peek() {
+	public T peek() {
 		return stack.get(top -1 );
 	}
 }
