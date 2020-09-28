@@ -44,6 +44,17 @@ public class TestStack {
 
 	private static void nextLargerElement(int arr[]) {
 		
+		// In test case where input  = [ 5 1 2 3 4]
+		// The while loop only runs n times for one element which is '5' and not for the rest of the elements (1,2,3,4).
+		// So, the complexity is still better than brute force.
+
+
+		// Explanation :- 
+		// "The second loop is subjective to a condition." 
+		// it is usually a constant factor (K) * N complexity, where k can be >1 or even <1 (depends upon the each problem input) 
+		// but no where near O(N^2).
+		
+		
 		Stack<Integer> stack = new Stack<Integer>();
 		int[] opArr = new int[arr.length];
 		int size = arr.length;
