@@ -13,6 +13,12 @@ public class TestStack {
 	}
 
 	private static void nextLargerElementOnLeft(int[] arr) {
+		
+		// Time Complexity: O(n). It seems more than O(n) at first look. 
+		// If we take a closer look, we can observe that every element of the array is added and removed from the stack at most once.
+		// So there are total 2n operations at most. Assuming that a stack operation takes O(1) time, 
+		// we can say that the time complexity is O(n).
+		
 		Stack<Integer> stack = new Stack<Integer>();
 		int[] opArr = new int[arr.length];
 		int size = 0;
@@ -33,6 +39,7 @@ public class TestStack {
 					}
 				}
 				if(stack.isEmpty()) {
+					//s
 					opArr[size] = -1;
 				} else {
 					opArr[size] = stack.peek();
