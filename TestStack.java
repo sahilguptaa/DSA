@@ -1,14 +1,108 @@
 //import sun.security.util.Length;
 
+import java.util.Stack;
+
 public class TestStack {
 
 	public static void main(String args[]) {
-		int price[] = { 100 , 80, 60, 70, 60, 75, 85 }; 
-        int n = price.length; 
-        int S[] = new int[n]; 
-  
-        // Fill the span values in array S[] 
-        calculateStockSpan(price, n, S); 
+//		int histogram[] = { 100 , 80, 60, 70, 60, 75, 85 }; 
+		int histogram[] = {6,2,5,4,5,1,6};
+        getMaximumAreaHistogram(histogram, histogram.length); 
+	}
+
+	private static void getMaximumAreaHistogram(int[] histogram, int length) {
+		
+		// U will do push operations and maybe some pops in while loop.Each push or pop takes O(1) time.U will push each element 1 time
+		// So,total time for push=O(n).And u won't pop same element more than once
+		// So,even if u have to pop all n elements,Time complexity will be O(n).so,total time for calculating  NSL = O(n)+O(n)=O(n).
+		
+		
+		// LEETCODE - https://leetcode.com/problems/largest-rectangle-in-histogram/submissions/
+		// GFG - https://www.geeksforgeeks.org/largest-rectangle-under-histogram/
+		
+		int[] nextSmallerLeft = findNextSmallerLeftElementIndex(histogram, length);
+		int[] nextSmallerRight = findNextSmallerRightElementIndex(histogram, length);
+
+		int[] widthArray = new int[length];
+		int maxArea = 0;
+		
+		while(length>0) {
+			int area = (nextSmallerRight[length - 1] - nextSmallerLeft[length - 1] - 1) * histogram[length - 1];
+			if(area > maxArea) {
+				maxArea = area;
+			}
+			length--;
+		}
+		
+		System.out.println(maxArea);
+		
+	}
+
+	private static int[] findNextSmallerRightElementIndex(int[] histogram, int length) {
+		Stack<Integer> stack = new Stack<Integer>();
+		int [] rightIndexArray = new int[length];
+		int psudoIndex = length;
+		
+		while(length > 0) {
+			
+			if(stack.isEmpty()) {
+				rightIndexArray[length-1] = psudoIndex;
+			} else if (histogram[stack.peek()] < histogram[length-1]) {
+				rightIndexArray[length - 1] = stack.peek();
+			} else {
+				while(!stack.isEmpty() && histogram[stack.peek()] >= histogram[length - 1]) {
+					try {
+						stack.pop();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(stack.isEmpty()) {
+					rightIndexArray[length-1] = psudoIndex;
+				} else {
+					rightIndexArray[length - 1] = stack.peek();
+				}
+				
+			}
+			
+			stack.push(length - 1);
+			length--;
+		}
+		
+		return rightIndexArray;
+	}
+
+	private static int[] findNextSmallerLeftElementIndex(int[] histogram, int length) {
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		int [] leftIndexArray = new int[length];
+		int psudoIndex = -1;
+		for(int i=0;i<length;i++) {
+			if(stack.isEmpty()) {
+				leftIndexArray[i] = psudoIndex;
+			} else if (histogram[stack.peek()] < histogram[i]) {
+				leftIndexArray[i] = stack.peek();
+			} else {
+				while(!stack.isEmpty() && histogram[stack.peek()] > histogram[i]) {
+					try {
+						stack.pop();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				if(stack.isEmpty()) {
+					leftIndexArray[i] = psudoIndex;
+				} else {
+					leftIndexArray[i] = stack.peek();
+				}
+				
+			}
+			stack.push(i);
+		}
+		
+		return leftIndexArray;
 	}
 
 	private static void calculateStockSpan(int[] price, int n, int[] s) {
