@@ -5,12 +5,48 @@ import java.util.Stack;
 public class TestStack {
 
 	public static void main(String args[]) {
-//		int histogram[] = { 100 , 80, 60, 70, 60, 75, 85 }; 
-		int histogram[] = {6,2,5,4,5,1,6};
-        getMaximumAreaHistogram(histogram, histogram.length); 
+
+//		int histogram[] = {6,2,5,4,5,1,6};
+//		System.out.println(getMaximumAreaHistogram(histogram, histogram.length)); 
+        
+        int A[][] = { 
+                { 0, 1, 1, 0 }, 
+                { 1, 1, 1, 1 }, 
+                { 1, 1, 1, 1 }, 
+                { 1, 1, 1, 0 }, 
+            };
+        System.out.println(maxRectangle(A));
 	}
 
-	private static void getMaximumAreaHistogram(int[] histogram, int length) {
+	private static int maxRectangle(int[][] a) {
+		
+		// O(mn)
+		
+		int [] tempArray = a[0];
+		int maxArea = getMaximumAreaHistogram(tempArray, 4);
+		for(int i = 1; i< a.length;i++) {
+			
+			for(int j = 0;j<4;j++) {
+				if(a[i][j] == 1) {
+					tempArray[j]+=1;
+				} else {
+					tempArray[j] = 0;
+				}
+			}
+			
+			int tempArea = getMaximumAreaHistogram(tempArray, 4);
+			if(tempArea > maxArea) {
+				maxArea = tempArea;
+			}
+			
+		}
+		
+		return maxArea;
+	}
+
+	private static int getMaximumAreaHistogram(int[] histogram, int length) {
+		
+		// O(n)
 		
 		// U will do push operations and maybe some pops in while loop.Each push or pop takes O(1) time.U will push each element 1 time
 		// So,total time for push=O(n).And u won't pop same element more than once
@@ -22,8 +58,7 @@ public class TestStack {
 		
 		int[] nextSmallerLeft = findNextSmallerLeftElementIndex(histogram, length);
 		int[] nextSmallerRight = findNextSmallerRightElementIndex(histogram, length);
-
-		int[] widthArray = new int[length];
+		
 		int maxArea = 0;
 		
 		while(length>0) {
@@ -34,7 +69,7 @@ public class TestStack {
 			length--;
 		}
 		
-		System.out.println(maxArea);
+		return maxArea;
 		
 	}
 
